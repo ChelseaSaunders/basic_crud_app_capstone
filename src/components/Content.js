@@ -1,6 +1,17 @@
 import React from 'react';
+const Content  = ({ comments, handleRemove, handleUpdate }) => {
+  const remove = (event) => {
+    event.preventDefault();
+    const id = event.target.parentElement.id
+    handleRemove(id);
+  }
 
-const Content  = ({ comments, handleDelete, handleEdit }) => {
+  const update = (event) => {
+    event.preventDefault();
+    const id = event.target.parentElement.id;
+    handleUpdate(id);
+  }
+
   return (
     <div>
       <h2>Comments:</h2>
@@ -9,8 +20,8 @@ const Content  = ({ comments, handleDelete, handleEdit }) => {
           return (
             <li key={comment.id} id={comment.id}>
               {comment.content}
-              <button class="delete" onClick={handleDelete}>Delete Note</button>
-              <button class="edit" onClick={handleEdit}>Edit Note</button>
+              <button className="delete" onClick={remove}>Delete Note</button>
+              <button className="edit" onClick={update}>Edit Note</button>
             </li>
           );
         })}

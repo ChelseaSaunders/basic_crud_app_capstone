@@ -11,7 +11,6 @@ const Form = ({ handleAdd }) => {
 
   const handleCommentChange = (event) => {
     setComment(event.target.value);
-    console.log(comment);
   };
 
   return (
