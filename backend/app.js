@@ -1,9 +1,9 @@
 
-const config = require('./config');
+const config = require('./config.js');
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const commentsRouter = require('./commentModel');
+const commentsRouter = require('./commentsRouter');
 const mongoose = require('mongoose');
 
 mongoose.connect(config.MONGODB_URI)
@@ -14,8 +14,8 @@ mongoose.connect(config.MONGODB_URI)
     console.log("error: could not connect to MongoDB", error.message);
   });
 
-  app.use(cors());
-  app.use(express.json());
-  app.use('/api/comments', commentsRouter);
+app.use(cors());
+app.use(express.json());
+app.use('/api/comments', commentsRouter);
 
-  module.exports = app;
+module.exports = app;

@@ -1,17 +1,60 @@
-import React from 'react';
-import './App.css'
+import { useState, useEffect } from 'react';
+
 import Title from './components/Title'
 import Form from './components/Form'
+import Content from './components/Content'
 import Footer from './components/Footer'
 
-function App() {
+import './App.css'
+import commentService from './commentsService'
+
+const App = () => {
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    commentService
+      .getAll()
+      .then(comments => {
+        setComments(comments);
+      });
+  }, []);
+
+
+  const addComment = (comment) => {
+    commentService
+      .create(comment)
+      .then(returnedComment => {
+        setComments(comments.concat(returnedComment));
+      });
+  }
+
+  const updateComment = (id, updatedComment) => {
+    commentService
+      .update(id, updatedComment)
+      .then((returnedComment) => {
+        setComments(comments.map(c => c.id === id ? returnedComment : c))
+      })
+      .catch(error => console.log("comment not updated", error));
+  }
+
+  const removeComment = (id) => {
+    commentService
+      .remove(id)
+      .then((returnedComments) => setComments(returnedComments))
+      .catch((error) => console.log("could not remove", error));
+  }
+
   return (
-    <React.Fragment>
+    <div>
       <Title />
-      <Form />
-      {/* <Content /> */}
+      <Form handleAdd={addComment} />
+      <Content
+        comments={comments}
+        handleUpdate={updateComment}
+        handleRemove={removeComment}
+      />
       <Footer />
-    </React.Fragment>
+    </div>
   );
 }
 

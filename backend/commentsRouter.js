@@ -1,77 +1,54 @@
-const express = require("express");
-const Comment = require('./commentModel');
-const commentsRouter = express();
-const cors = require("cors");
-const { response } = require("express");
+const commentsRouter = require('express').Router()
+const Comment = require('./commentModel')
 
-require("dotenv").config({ path: "./config.env "});
-const PORT = process.env.PORT || 5000;
-
-commentsRouter.use(cors());
-commentsRouter.use(express.json());
-
-commentsRouter.get('/', (request, response) => {
-  Comment.find({}).then(comments => {
-    response.json(comments);
-  });
+commentsRouter.get('/', async (request, response) => {
+  const comments = await Comment.find({});
+  response.json(comments);
 });
 
-commentsRouter.get('/:id', (request, response) => {
-  Comment.findById(request.params.id)
-    .then(comment => {
-      if (comment) {
-        response.json(note);
-      } else {
-        console.log("Coment not found.");
-        alert("Error: comment not found.");
-        response.status(404).end();
-      }
-    });
+commentsRouter.get('/:id', async (request, response) => {
+  const comment = await Comment.findBbyId(request.params.id);
+
+  if (comment) {
+    response.json(comment.toJSON());
+  } else {
+    console.log("Coment not found.");
+    response.status(404).end();
+  }
 });
 
-commentsRouter.post('/', (request, response) => {
+commentsRouter.post('/', async (request, response) => {
   const body = request.body;
-
   const comment = new Comment({
     content: body.content,
   });
 
-  comment.save()
-    .then(savedComment => {
+  const savedComment = await comment.save();
+  if (savedComment) {
       response.json(savedComment);
-    })
-    .catch((error) => {
-      console.log("unable to add commment", error);
-      alert("Error: comment not added.")
-    });
+    } else {
+      console.log("unable to add commment");
+    }
 })
 
-commentsRouter.delete('/:id', (reuest, response) => {
-  Comment.findByIdAndRemove(request.params.id)
-    .then(() => {
-      response.status(204).end();
-    })
-    .catch((error) => {
-      console.log("Error: comment not deleted.", error);
-      alert("Error: comment not added.");
-    });
-})
+commentsRouter.delete('/:id', async (request, response) => {
+  await Comment.findByIdAndRemove(request.params.id)
+  response.status(204).end();
+});
 
-commentsRouter.put('/:id', (request, response) => {
+commentsRouter.put('/:id', async (request, response) => {
   const body = request.body;
 
   const comment = {
     content: body.content,
   };
 
-  Comment.findByIdAndUpdate(request.params.id, comment)
-    .then(updatedComment => {
+  const updatedComment = await Comment.findByIdAndUpdate(request.params.id, comment);
+  if (updatedComment) {
       response.json(updatedComment);
-    })
-    .catch((error) => {
-      console.log("Error: could not update comment.", error);
-      alert("Error: comment not updated.");
-    });
+  } else {
+      console.log("Error: could not update comment.");
+  }
 });
 
 module.exports = commentsRouter;

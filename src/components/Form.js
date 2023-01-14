@@ -1,15 +1,12 @@
 import { useState } from 'react';
 
-let comments = [];
-
-const Form = () => {
+const Form = ({ handleAdd }) => {
   const [comment, setComment] = useState("");
 
   const addComment = (event) => {
     event.preventDefault();
-    comments.push(comment);
-    console.log(comment, comments)
-    setComment("")
+    handleAdd({ content: comment });
+    setComment('');
   }
 
   const handleCommentChange = (event) => {
