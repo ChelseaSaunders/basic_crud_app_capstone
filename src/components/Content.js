@@ -1,15 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 const Content  = ({ comments, handleRemove, handleUpdate }) => {
+  const [updatedComment, setUpdatedComment] = useState("");
+
   const remove = (event) => {
     event.preventDefault();
-    const id = event.target.parentElement.id
+    const id = event.target.id.split('delete').pop()
     handleRemove(id);
   }
 
+  const handleCommentChange = (event) => {
+    setUpdatedComment(event.target.value);
+  };
+
   const update = (event) => {
     event.preventDefault();
-    const id = event.target.parentElement.id;
-    handleUpdate(id);
+    const id = event.target.id.split('update').pop();
+    handleUpdate(id, { content: updatedComment });
+    setUpdatedComment('')
+  }
+
+  const toggleUpdate = (id) => {
+    const updateDivs = Array.prototype.slice.call(document.querySelectorAll('.update-form'));
+    updateDivs.forEach(el => el.hidden = true);
+    const currentUpdateDiv = document.querySelector(`#toggle-update${id}`)
+    currentUpdateDiv.hidden = false;
   }
 
   return (
@@ -20,8 +34,37 @@ const Content  = ({ comments, handleRemove, handleUpdate }) => {
           return (
             <li key={comment.id} id={comment.id}>
               {comment.content}
-              <button className="delete" onClick={remove}>Delete Note</button>
-              <button className="edit" onClick={update}>Edit Note</button>
+              <button
+                id={"delete" + comment.id}
+                className="delete"
+                onClick={remove}
+              >
+              Delete Note
+              </button>
+              <button
+                onClick={() => toggleUpdate(comment.id)}
+              >
+              Show Update Form
+              </button>
+              <div
+                id={"toggle-update" + comment.id}
+                className="update-form"
+                hidden={true}
+              >
+                <input
+                  name="update"
+                  placeholder={comment.content}
+                  value={updatedComment}
+                  onChange={handleCommentChange}
+                />
+                <button
+                  id={"update" + comment.id}
+                  className="update"
+                  onClick={update}
+                >
+                Update Note
+                </button>
+              </div>
             </li>
           );
         })}
