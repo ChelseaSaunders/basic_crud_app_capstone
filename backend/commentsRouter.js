@@ -43,12 +43,7 @@ commentsRouter.put('/:id', async (request, response) => {
     content: body.content,
   };
 
-  const updatedComment = await Comment.findByIdAndUpdate(request.params.id, comment);
-  if (updatedComment) {
-      response.json(updatedComment);
-  } else {
-      console.log("Error: could not update comment.");
-  }
+  await Comment.findByIdAndUpdate(request.params.id, comment);
 });
 
 module.exports = commentsRouter;

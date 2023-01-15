@@ -27,20 +27,23 @@ const App = () => {
       });
   }
 
-  const updateComment = (id, updatedComment) => {
-    commentService
-      .update(id, updatedComment)
-      .then((returnedComment) => {
-        console.log(returnedComment);
-        setComments(comments.map(c => c.id === id ? returnedComment : c))
-      })
-      .catch(error => console.log("comment not updated", error));
+  const updateComment =  (id, updatedComment) => {
+    commentService.update(id, updatedComment);
+
+    updatedComment.id = id;
+
+    const updatedComments = comments.map((comment) => {
+      if (comment.id === id) comment = updatedComment;
+      return comment;
+    });
+    setComments(updatedComments);
+    const updateDivs = Array.prototype.slice.call(document.querySelectorAll('.update-form'));
+    updateDivs.forEach(el => el.hidden = true);
   }
 
   const removeComment = async (id) => {
     await commentService.remove(id)
-    let updatedComments = comments.slice().filter(el => el.id !== id);
-    console.log(comments, updatedComments);
+    const updatedComments = comments.filter(el => el.id !== id);
     setComments(updatedComments);
   }
 

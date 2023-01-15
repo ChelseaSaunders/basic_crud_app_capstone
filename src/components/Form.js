@@ -5,6 +5,10 @@ const Form = ({ handleAdd }) => {
 
   const addComment = (event) => {
     event.preventDefault();
+    if (comment.length < 3) {
+      alert("Comment too short. Please enter at least 3 charachters!");
+      return;
+    }
     handleAdd({ content: comment });
     setComment('');
   }
@@ -21,6 +25,8 @@ const Form = ({ handleAdd }) => {
         name="comment"
         placeholder="Cool website!"
         value={comment}
+        required={true}
+        minLength={3}
         onChange={handleCommentChange}
       />
       <button type="submit">Save Comment!</button>
