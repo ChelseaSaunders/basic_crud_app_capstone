@@ -19,6 +19,6 @@ const remove = async (id) => {
   axios.delete(`${baseUrl}/${id}`);
 };
 
-const noteService = { getAll, create, update, remove }
+const commentService = { getAll, create, update, remove }
 
-export default noteService;
+export default commentService;
