@@ -17,8 +17,7 @@ const update = (id, newObject) => {
 };
 
 const remove = async (id) => {
-  const request = await axios.delete(`${baseUrl}/${id}`);
-  return request.then(response => response.data);
+  axios.delete(`${baseUrl}/${id}`);
 };
 
 const noteService = { getAll, create, update, remove }

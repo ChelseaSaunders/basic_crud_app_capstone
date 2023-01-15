@@ -19,7 +19,6 @@ const App = () => {
       });
   }, []);
 
-
   const addComment = (comment) => {
     commentService
       .create(comment)
@@ -32,16 +31,17 @@ const App = () => {
     commentService
       .update(id, updatedComment)
       .then((returnedComment) => {
+        console.log(returnedComment);
         setComments(comments.map(c => c.id === id ? returnedComment : c))
       })
       .catch(error => console.log("comment not updated", error));
   }
 
-  const removeComment = (id) => {
-    commentService
-      .remove(id)
-      .then((returnedComments) => setComments(returnedComments))
-      .catch((error) => console.log("could not remove", error));
+  const removeComment = async (id) => {
+    await commentService.remove(id)
+    let updatedComments = comments.slice().filter(el => el.id !== id);
+    console.log(comments, updatedComments);
+    setComments(updatedComments);
   }
 
   return (
