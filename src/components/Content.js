@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-const Content  = ({ comments, handleRemove, handleUpdate }) => {
+const Content  = ({ title, comments, handleRemove, handleUpdate }) => {
   const [updatedComment, setUpdatedComment] = useState("");
 
   const remove = (event) => {
@@ -28,7 +28,7 @@ const Content  = ({ comments, handleRemove, handleUpdate }) => {
 
   return (
     <div>
-      <h2>Comments:</h2>
+      <h2>{title}</h2>
       <ul>
         {comments.map((comment) => {
           return (

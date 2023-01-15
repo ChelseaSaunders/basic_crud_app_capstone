@@ -1,5 +1,5 @@
 const commentsRouter = require('express').Router()
-const Comment = require('./commentModel')
+const Comment = require('../models/commentModel')
 
 commentsRouter.get('/', async (request, response) => {
   const comments = await Comment.find({});

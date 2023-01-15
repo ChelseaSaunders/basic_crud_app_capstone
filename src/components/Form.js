@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const Form = ({ handleAdd }) => {
+const Form = ({ dbName, handleAdd }) => {
   const [comment, setComment] = useState("");
 
   const addComment = (event) => {
@@ -19,7 +19,7 @@ const Form = ({ handleAdd }) => {
 
   return (
     <form onSubmit={addComment}>
-      <label htmlFor="comment">Add a comment here:</label>
+      <label htmlFor="comment">Add a comment to {dbName} here:</label>
       <input
         id="comment"
         name="comment"

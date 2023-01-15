@@ -6,7 +6,7 @@ import Content from './components/Content'
 import Footer from './components/Footer'
 
 import './App.css'
-import commentService from './commentsService'
+import commentService from './services/commentsService'
 
 const App = () => {
   const [comments, setComments] = useState([]);
@@ -50,8 +50,12 @@ const App = () => {
   return (
     <div>
       <Title />
-      <Form handleAdd={addComment} />
+      <Form
+        dbName="MongoDB"
+        handleAdd={addComment}
+      />
       <Content
+        title="MongoDB Commentss"
         comments={comments}
         handleUpdate={updateComment}
         handleRemove={removeComment}

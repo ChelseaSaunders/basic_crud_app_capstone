@@ -3,7 +3,7 @@ const config = require('./config.js');
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const commentsRouter = require('./commentsRouter');
+const commentsRouter = require('./controllers/commentsRouter');
 const mongoose = require('mongoose');
 
 mongoose.connect(config.MONGODB_URI)
