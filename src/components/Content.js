@@ -4,9 +4,9 @@ const Content  = ({ title, comments, handleRemove, handleUpdate }) => {
 
   const remove = (event) => {
     event.preventDefault();
-    const id = event.target.id.split('delete').pop()
+    const id = event.target.id.split('delete').pop();
     handleRemove(id);
-  }
+  };
 
   const handleCommentChange = (event) => {
     setUpdatedComment(event.target.value);
@@ -16,15 +16,15 @@ const Content  = ({ title, comments, handleRemove, handleUpdate }) => {
     event.preventDefault();
     const id = event.target.id.split('update-form').pop();
     handleUpdate(id, { content: updatedComment });
-    setUpdatedComment('')
-  }
+    setUpdatedComment('');
+  };
 
   const toggleUpdate = (id) => {
     const updateDivs = Array.prototype.slice.call(document.querySelectorAll('.update-form'));
     updateDivs.forEach(el => el.hidden = true);
     const currentUpdateDiv = document.querySelector(`#update-form${id}`)
     currentUpdateDiv.hidden = false;
-  }
+  };
 
   return (
     <div>
@@ -39,7 +39,7 @@ const Content  = ({ title, comments, handleRemove, handleUpdate }) => {
                 className="delete"
                 onClick={remove}
               >
-              Delete Note
+              Delete Comment
               </button>
               <button
                 onClick={() => toggleUpdate(comment.id)}
@@ -64,7 +64,7 @@ const Content  = ({ title, comments, handleRemove, handleUpdate }) => {
                   id={"update" + comment.id}
                   className="update"
                 >
-                Update Note
+                Update Comment
                 </button>
               </form>
             </li>

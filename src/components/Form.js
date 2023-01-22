@@ -11,7 +11,7 @@ const Form = ({ dbName, handleAdd }) => {
     }
     handleAdd({ content: comment });
     setComment('');
-  }
+  };
 
   const handleCommentChange = (event) => {
     setComment(event.target.value);

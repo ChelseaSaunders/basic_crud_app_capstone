@@ -19,6 +19,32 @@ const remove = async (id) => {
   axios.delete(`${baseUrl}/${id}`);
 };
 
-const commentService = { getAll, create, update, remove }
+const getAllPostgres = () => {
+  const request = axios.get(`${baseUrl}/postgres`);
+  return request.then(response => JSON.parse(response.data));
+};
+
+const createPostgres = async (newObject) => {
+  const response = await axios.post(`${baseUrl}/postgres`, newObject)
+  return response.data;
+};
+
+const updatePostgres = async (id, newObject) => {
+  await axios.put(`${baseUrl}/postgres/${id}`, newObject);
+};
+
+const removePostgres = async (id) => {
+  await axios.delete(`${baseUrl}/postgres/${id}`);
+};
+
+const commentService = { getAll,
+                         create,
+                         update,
+                         remove,
+                         getAllPostgres,
+                         createPostgres,
+                         updatePostgres,
+                         removePostgres
+                        };
 
 export default commentService;
